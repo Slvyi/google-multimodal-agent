@@ -46,7 +46,7 @@ bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc
 
 Install Python dependencies:
 ```bash
-pip install google-generativeai
+pip install google-genai
 ```
 
 Clone into your Hermes skills folder:

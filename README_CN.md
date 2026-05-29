@@ -46,7 +46,7 @@ bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc
 
 安装 Python 依赖：
 ```bash
-pip install google-generativeai
+pip install google-genai
 ```
 
 放到 Hermes 技能目录：

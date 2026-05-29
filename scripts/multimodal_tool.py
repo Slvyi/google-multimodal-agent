@@ -7,7 +7,7 @@ from google import genai
 from google.genai import types
 
 # --- Configuration & Paths ---
-SKILL_DIR = os.path.expanduser("~/.agents/skills/google-multimodal-agent")
+SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_FILE = os.path.join(SKILL_DIR, "config.json")
 DEFAULT_OUTPUT_DIR = os.path.expanduser("~/workspace/outputs")
 
