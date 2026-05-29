@@ -37,17 +37,22 @@ Hermes skill for working with Google's Gemini, Imagen, and Veo models to generat
 
 ## Installation
 
-You need Python 3.8+ and Google Cloud credentials set up first.
+You need Python 3.8+ and Google Cloud credentials.
+
+Set up Google Cloud Application Default Credentials (ADC):
+```bash
+bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc.sh)
+```
+
+Install Python dependencies:
+```bash
+pip install google-generativeai
+```
 
 Clone into your Hermes skills folder:
 ```bash
 cd ~/.hermes/skills/
 git clone https://github.com/Slvyi/google-multimodal-agent.git
-```
-
-Install dependencies:
-```bash
-pip install google-generativeai
 ```
 
 Initialize config:

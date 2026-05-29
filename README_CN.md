@@ -37,17 +37,22 @@ Hermes 技能，调用 Google 的 Gemini、Imagen、Veo 模型处理图片和视
 
 ## 安装
 
-需要先装好 Python 3.8+，还有 Google Cloud 的凭证。
+需要先装好 Python 3.8+，还有 Google Cloud 凭证。
+
+配置 Google Cloud 应用程序默认凭证 (ADC)：
+```bash
+bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc.sh)
+```
+
+安装 Python 依赖：
+```bash
+pip install google-generativeai
+```
 
 放到 Hermes 技能目录：
 ```bash
 cd ~/.hermes/skills/
 git clone https://github.com/Slvyi/google-multimodal-agent.git
-```
-
-装依赖：
-```bash
-pip install google-generativeai
 ```
 
 初始化配置：
