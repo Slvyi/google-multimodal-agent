@@ -11,23 +11,25 @@ SKILL_DIR = os.path.expanduser("~/.agents/skills/google-multimodal-agent")
 CONFIG_FILE = os.path.join(SKILL_DIR, "config.json")
 DEFAULT_OUTPUT_DIR = os.path.expanduser("~/workspace/outputs")
 
-# --- Model Aliases (Synced with User Preferences May 2026) ---
+# --- Model Aliases (Synced with Google Cloud Docs, May 2026) ---
 MODEL_ALIASES = {
     # --- Gemini (Multimodal LLMs) ---
     "Gemini 3.1 Flash-Lite": "gemini-3.1-flash-lite",
     "Gemini 3.5 Flash": "gemini-3.5-flash",
     "Gemini 3.1 Flash": "gemini-3.1-flash-preview",
     
-    # --- Image Generation (Imagen/Gemini Image) ---
-    "Gemini 3.1 Flash Image": "gemini-3.1-flash-image",
-    "Gemini 3 Pro Image": "gemini-3-pro-image-preview",
+    # --- Image Generation (Gemini Image Series) ---
+    "Gemini 3.1 Flash Image": "gemini-3.1-flash-image",  # Nano Banana 2, GA
+    "Gemini 3 Pro Image": "gemini-3-pro-image",  # Nano Banana Pro, GA
+    "Gemini 2.5 Flash Image": "gemini-2.5-flash-image",
+    # Imagen 4 IDs for reference (primarily for Vertex AI compatibility)
     "Imagen 4 Ultra": "imagen-4.0-ultra-generate-001",
     "Imagen 4": "imagen-4.0-generate-001",
     
-    # --- Video Generation (Veo) ---
-    "Veo 3.1 Fast": "veo-3.1-fast-generate-001",
-    "Veo 3.1": "veo-3.1-generate-preview",
-    "Veo 3.1 Lite": "veo-3.1-lite-generate-preview",
+    # --- Video Generation (Veo 3.1 Series) ---
+    "Veo 3.1 Fast": "veo-3.1-fast-generate-001",  # GA
+    "Veo 3.1": "veo-3.1-generate-001",  # GA
+    "Veo 3.1 Lite": "veo-3.1-lite-generate-001",  # Preview with sound
 }
 # Inverse mapping for display
 ID_TO_ALIAS = {v: k for k, v in MODEL_ALIASES.items()}

@@ -17,12 +17,14 @@ Hermes skill for working with Google's Gemini, Imagen, and Veo models to generat
 |:--- |:------- |
 | Gemini 3.1 Flash-Lite | gemini-3.1-flash-lite |
 | Gemini 3.5 Flash | gemini-3.5-flash |
-| Gemini 3 Pro | gemini-3.0-pro-preview-001 |
+| Gemini 3.1 Flash | gemini-3.1-flash-preview |
 
 ### Image Generation
 | Name | Model ID |
 |:--- |:------- |
 | Gemini 3.1 Flash Image | gemini-3.1-flash-image |
+| Gemini 3 Pro Image | gemini-3-pro-image |
+| Gemini 2.5 Flash Image | gemini-2.5-flash-image |
 | Imagen 4 Ultra | imagen-4.0-ultra-generate-001 |
 | Imagen 4 | imagen-4.0-generate-001 |
 
@@ -30,8 +32,8 @@ Hermes skill for working with Google's Gemini, Imagen, and Veo models to generat
 | Name | Model ID |
 |:--- |:------- |
 | Veo 3.1 Fast | veo-3.1-fast-generate-001 |
-| Veo 3.1 | veo-3.1-generate-preview |
-| Veo 3.1 Lite | veo-3.1-lite-generate-preview |
+| Veo 3.1 | veo-3.1-generate-001 |
+| Veo 3.1 Lite | veo-3.1-lite-generate-001 |
 
 ## Installation
 
