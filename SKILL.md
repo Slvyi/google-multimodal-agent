@@ -3,44 +3,44 @@ name: google-multimodal-agent
 description: Use when the user requests generating, analyzing, or editing images and videos using Google's generative AI models (Imagen, Veo, Gemini).
 ---
 
-# Google Multimodal Agent (User Defaults v2026.05)
+# Google Multimodal Agent (Hybrid Agentic v2026.06)
 
 ## Overview
-This skill provides a helper script (`scripts/multimodal_tool.py`) to interact with the **Gemini Enterprise Agent Platform**. 
+This skill is a versatile toolset for **AI Orchestrators**. It supports both **Atomic Control** (discrete steps) and **Shortcut Execution** (all-in-one commands). All operations are billed against **Google Cloud Promotional Credits**.
 
-## Current Default Models
-- **Multimodal (Understanding & Reasoning)**: `Gemini 3.1 Flash-Lite`
-- **Image Generation**: `Gemini 3.1 Flash Image` (Nano Banana 2)
-- **Video Generation**: `Veo 3.1 Fast` (`veo-3.1-fast-generate-001`)
+## Orchestrator Workflow Rules
+The orchestrating Agent can choose between two interaction patterns:
+
+### Pattern A: Atomic Control (Recommended for Complex Tasks)
+1. **Brain**: Call `optimize-prompt` to get an expert description.
+2. **Review**: You (the Agent) can review/edit the prompt based on context.
+3. **Execution**: Call `image-gen` or `video-gen` with the finalized prompt.
+
+### Pattern B: Shortcut Execution (Recommended for Simple Tasks)
+- Directly call `image-gen` or `video-gen` with the `--optimize` flag. This will automatically use Gemini 3.5 Flash to enrich the prompt before generating the media in a single step.
+
+## Default Config
+- **LLM/Orchestration**: `Gemini 3.5 Flash` (Default for prompt optimization and media query)
+- **Image Generation**: `Gemini 3.1 Flash Image`
+- **Video Generation**: `Veo 3.1 Fast`
+
+## CLI Commands
+
+### 1. Generation (The Hands)
+Strictly executes generation. Use `--optimize` for one-step enrichment.
+- `python scripts/multimodal_tool.py image-gen --prompt "..." [--optimize] [--aspect_ratio 16:9]`
+- `python scripts/multimodal_tool.py video-gen --prompt "..." [--optimize] [--duration 6]`
+
+### 2. Prompt Engineering (The Brain)
+Enriches a simple prompt without executing generation.
+- `python scripts/multimodal_tool.py optimize-prompt --prompt "..." --task_type "image|video"`
+
+### 3. Media Understanding (The Eyes)
+Analyzes content and answers questions.
+- `python scripts/multimodal_tool.py image-query --file <path> --prompt "..."`
+- `python scripts/multimodal_tool.py video-query --file <path> --prompt "..."`
 
 ## Initialization
-Settings are stored in the skill directory. To re-initialize:
 ```bash
-python scripts/multimodal_tool.py init --output_dir ~/workspace/outputs --image_model "Gemini 3.1 Flash Image" --multimodal_model "Gemini 3.1 Flash-Lite" --video_model "Veo 3.1 Fast"
+python scripts/multimodal_tool.py init --multimodal_model "Gemini 3.5 Flash" --image_model "Gemini 3.1 Flash Image" --video_model "Veo 3.1 Fast"
 ```
-
-## Supported Model Aliases
-Use these friendly names for best results:
-
-| Category | Friendly Name (Alias) | Model ID |
-| :--- | :--- | :--- |
-| **Multimodal LLM** | `Gemini 3.1 Flash-Lite` | `gemini-3.1-flash-lite` |
-| | `Gemini 3.5 Flash` | `gemini-3.5-flash` |
-| | `Gemini 3.1 Flash` | `gemini-3.1-flash-preview` |
-| **Image Generation** | `Gemini 3.1 Flash Image` | `gemini-3.1-flash-image` |
-| | `Gemini 3 Pro Image` | `gemini-3-pro-image` |
-| | `Gemini 2.5 Flash Image` | `gemini-2.5-flash-image` |
-| | `Imagen 4 Ultra` | `imagen-4.0-ultra-generate-001` |
-| | `Imagen 4` | `imagen-4.0-generate-001` |
-| **Video Generation** | `Veo 3.1 Fast` | `veo-3.1-fast-generate-001` |
-| | `Veo 3.1` | `veo-3.1-generate-001` |
-| | `Veo 3.1 Lite` | `veo-3.1-lite-generate-001` |
-
-## Prompt Optimization (Dual-Track)
-1. **Interactive**: Agent clarifies vague prompts with the user.
-2. **Automatic**: Script uses `Gemini 3.1 Flash-Lite` (default) to enrich prompts via the `--optimize` flag.
-
-## CLI Usage
-- **Image**: `python scripts/multimodal_tool.py image-gen --prompt "..." --optimize` (Uses `Gemini 3.1 Flash Image` by default)
-- **Video**: `python scripts/multimodal_tool.py video-gen --prompt "..." --duration 8 --optimize` (Uses `Veo 3.1 Fast` by default)
-- **Query**: `python scripts/multimodal_tool.py image-query --file <path> --prompt "..."` (Uses `Gemini 3.1 Flash-Lite` by default)

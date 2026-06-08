@@ -1,120 +1,64 @@
-# Google Multimodal Agent Skill
+# Google 多模态智能体 Skill (混合架构版)
 
-Hermes 技能，调用 Google 的 Gemini、Imagen、Veo 模型处理图片和视频。
+一套专为 **Gemini 企业级智能体平台** (Vertex AI) 打造的专业工具集，用于生成并分析图像和视频。支持高级编排与快速执行。
 
-## 功能
-- 生成图片（Imagen 4 / Gemini Image）
-- 生成视频（Veo 3，最长60秒）
-- 分析图片/视频内容
-- 自动优化提示词
-- 可以自己改默认模型和输出目录
-- 模型用友好名称，不用记ID
+## 核心特性
+- **混合工作流**: 同时支持 **原子化控制**（针对复杂任务的分步操作）和 **快捷执行**（带 `--optimize` 的一键生成）。
+- **Agent 优化版 LLM**: 采用 `Gemini 3.5 Flash`，具备卓越的推理与媒体分析能力。
+- **生产级生成**: 使用 `Gemini 3.1` 和 `Veo 3.1` 系列生成高保真素材。
+- **媒体查询**: 深度理解图像和视频内容。
+- **赠金额度兼容**: 完全支持抵扣 **Google Cloud 赠金额度**。
 
-## 支持的模型
+## 支持的模型 (官方平台 v2026.06)
 
-### 多模态理解模型
-| 名称 | 对应ID |
-|:--- |:----- |
-| Gemini 3.1 Flash-Lite | gemini-3.1-flash-lite |
-| Gemini 3.5 Flash | gemini-3.5-flash |
-| Gemini 3.1 Flash | gemini-3.1-flash-preview |
-
-### 图片生成
-| 名称 | 对应ID |
-|:--- |:----- |
-| Gemini 3.1 Flash Image | gemini-3.1-flash-image |
-| Gemini 3 Pro Image | gemini-3-pro-image |
-| Gemini 2.5 Flash Image | gemini-2.5-flash-image |
-| Imagen 4 Ultra | imagen-4.0-ultra-generate-001 |
-| Imagen 4 | imagen-4.0-generate-001 |
-
-### 视频生成
-| 名称 | 对应ID |
-|:--- |:----- |
-| Veo 3.1 Fast | veo-3.1-fast-generate-001 |
-| Veo 3.1 | veo-3.1-generate-001 |
-| Veo 3.1 Lite | veo-3.1-lite-generate-001 |
+| 类别 | 模型别名 | 适用场景 |
+|:--- |:--- |:--- |
+| **编排 / 查询** | `Gemini 3.5 Flash` | 推理、Agent 任务、媒体理解。 |
+| **图片生成** | `Gemini 3.1 Flash Image` | 快速、高质量的生产级素材。 |
+| **视频生成** | `Veo 3.1 Fast` | 低延迟、高保真视频。 |
 
 ## 安装
 
-需要先装好 Python 3.8+，还有 Google Cloud 凭证。
+### 准备工作
+- Python 3.9+
+- 已启用 Vertex AI API 的 Google Cloud 项目。
+- 已配置 [Google Cloud ADC](https://cloud.google.com/docs/authentication/provide-credentials-adc) 凭据。
 
-配置 Google Cloud 应用程序默认凭证 (ADC)：
+### 步骤
+1. **安装依赖**:
+   ```bash
+   pip install google-genai
+   ```
+2. **初始化配置**:
+   ```bash
+   python scripts/multimodal_tool.py init \
+     --output_dir ~/workspace/outputs \
+     --multimodal_model "Gemini 3.5 Flash"
+   ```
+
+## 使用模式
+
+### 1. 快捷模式 (最快)
+一键式提示词增强并生成。
 ```bash
-bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc.sh)
+python scripts/multimodal_tool.py image-gen --prompt "赛博朋克城市" --optimize
 ```
 
-安装 Python 依赖：
+### 2. 原子模式 (精准控制)
+专为调度器 Agent（如 OpenClaw）设计的解耦步骤。
 ```bash
-pip install google-genai
+# 第一步：优化提示词
+python scripts/multimodal_tool.py optimize-prompt --prompt "赛博朋克城市" --task_type "image"
+
+# 第二步：使用优化后的提示词进行生成
+python scripts/multimodal_tool.py image-gen --prompt "从第一步获取的长描述..."
 ```
 
-放到 Hermes 技能目录：
+### 3. 媒体理解
+分析图像或视频内容。
 ```bash
-cd ~/.hermes/skills/
-git clone https://github.com/Slvyi/google-multimodal-agent.git
+python scripts/multimodal_tool.py video-query --file ./input.mp4 --prompt "第5秒发生了什么？"
 ```
 
-初始化配置：
-```bash
-cd ~/.hermes/skills/google-multimodal-agent
-python scripts/multimodal_tool.py init \
-  --output_dir ~/workspace/outputs \
-  --image_model "Gemini 3.1 Flash Image" \
-  --multimodal_model "Gemini 3.1 Flash-Lite" \
-  --video_model "Veo 3.1 Fast"
-```
-
-## 怎么用
-
-生成图片：
-```bash
-python scripts/multimodal_tool.py image-gen --prompt "夕阳下的日式花园" --optimize
-```
-
-生成视频：
-```bash
-python scripts/multimodal_tool.py video-gen --prompt "海浪拍岩石" --duration 8 --optimize
-```
-
-分析图片：
-```bash
-python scripts/multimodal_tool.py image-query --file ~/workspace/image.png --prompt "描述这张图"
-```
-
-换个模型生成：
-```bash
-python scripts/multimodal_tool.py image-gen --prompt "写实人像" --model "Imagen 4 Ultra" --optimize
-```
-
-## 目录结构
-
-```
-google-multimodal-agent/
-├── README.md
-├── README_CN.md
-├── SKILL.md
-├── SKILL_ZH.md
-├── config.json          # 自己的配置，不上传
-├── .gitignore
-├── scripts/
-│   └── multimodal_tool.py
-├── assets/
-├── references/
-└── tests/
-```
-
-## 配置
-
-config.json 里存这些：
-```json
-{
-    "output_dir": "/home/ubuntu/workspace/outputs",
-    "default_image_model": "Gemini 3.1 Flash Image",
-    "default_video_model": "Veo 3.1 Fast",
-    "default_multimodal_model": "Gemini 3.1 Flash-Lite"
-}
-```
-
-## License
+## 许可证
 MIT

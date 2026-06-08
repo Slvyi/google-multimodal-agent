@@ -1,119 +1,63 @@
-# Google Multimodal Agent Skill
+# Google Multimodal Agent Skill (Hybrid Architecture)
 
-Hermes skill for working with Google's Gemini, Imagen, and Veo models to generate and analyze images and videos.
+A professional suite of tools for the **Gemini Enterprise Agent Platform** (Vertex AI) to generate and analyze images and videos. Designed for both high-level orchestration and fast execution.
 
-## What it does
-- Image generation with Imagen 4 and Gemini Image models
-- Video generation up to 60 seconds with Veo 3
-- Image and video content analysis
-- Automatic prompt optimization
-- Customizable default models and output directory
-- User-friendly model names instead of technical IDs
+## Key Features
+- **Hybrid Workflow**: Supports both **Atomic Control** (discrete steps for complex tasks) and **Shortcut Execution** (one-step generation with `--optimize`).
+- **Agent-Optimized LLM**: Powered by `Gemini 3.5 Flash` for superior reasoning and media analysis.
+- **Production-Ready Generation**: High-fidelity assets with `Gemini 3.1` and `Veo 3.1` series.
+- **Media Query**: Deep multimodal understanding for both images and videos.
+- **Promotional Credit Compatible**: Fully compatible with **Google Cloud Promotional Credits**.
 
-## Supported Models
+## Supported Models (Official Platform v2026.06)
 
-### Multimodal LLMs
-| Name | Model ID |
-|:--- |:------- |
-| Gemini 3.1 Flash-Lite | gemini-3.1-flash-lite |
-| Gemini 3.5 Flash | gemini-3.5-flash |
-| Gemini 3.1 Flash | gemini-3.1-flash-preview |
-
-### Image Generation
-| Name | Model ID |
-|:--- |:------- |
-| Gemini 3.1 Flash Image | gemini-3.1-flash-image |
-| Gemini 3 Pro Image | gemini-3-pro-image |
-| Gemini 2.5 Flash Image | gemini-2.5-flash-image |
-| Imagen 4 Ultra | imagen-4.0-ultra-generate-001 |
-| Imagen 4 | imagen-4.0-generate-001 |
-
-### Video Generation
-| Name | Model ID |
-|:--- |:------- |
-| Veo 3.1 Fast | veo-3.1-fast-generate-001 |
-| Veo 3.1 | veo-3.1-generate-001 |
-| Veo 3.1 Lite | veo-3.1-lite-generate-001 |
+| Category | Model Alias | Best For |
+|:--- |:--- |:--- |
+| **Orchestration/Query** | `Gemini 3.5 Flash` | Reasoning, Agentic Tasks, Media Understanding. |
+| **Image Generation** | `Gemini 3.1 Flash Image` | Fast, high-quality production assets. |
+| **Video Generation** | `Veo 3.1 Fast` | Low-latency, high-fidelity video. |
 
 ## Installation
 
-You need Python 3.8+ and Google Cloud credentials.
+### Prerequisites
+- Python 3.9+
+- Google Cloud Project with Vertex AI API enabled.
+- [Google Cloud ADC](https://cloud.google.com/docs/authentication/provide-credentials-adc) configured.
 
-Set up Google Cloud Application Default Credentials (ADC):
+### Setup
+1. **Install dependencies**:
+   ```bash
+   pip install google-genai
+   ```
+2. **Initialize configuration**:
+   ```bash
+   python scripts/multimodal_tool.py init \
+     --output_dir ~/workspace/outputs \
+     --multimodal_model "Gemini 3.5 Flash"
+   ```
+
+## Usage Patterns
+
+### 1. Shortcut Mode (Fastest)
+One-step prompt enrichment and generation.
 ```bash
-bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc.sh)
+python scripts/multimodal_tool.py image-gen --prompt "Cyberpunk city" --optimize
 ```
 
-Install Python dependencies:
+### 2. Atomic Mode (Precise Control)
+Decoupled steps for Orchestrator Agents (e.g., OpenClaw).
 ```bash
-pip install google-genai
+# Step 1: Optimize prompt
+python scripts/multimodal_tool.py optimize-prompt --prompt "Cyberpunk city" --task_type "image"
+
+# Step 2: Generate with optimized prompt
+python scripts/multimodal_tool.py image-gen --prompt "The resulting long prompt from step 1..."
 ```
 
-Clone into your Hermes skills folder:
+### 3. Media Understanding
+Analyze images or videos.
 ```bash
-cd ~/.hermes/skills/
-git clone https://github.com/Slvyi/google-multimodal-agent.git
-```
-
-Initialize config:
-```bash
-cd ~/.hermes/skills/google-multimodal-agent
-python scripts/multimodal_tool.py init \
-  --output_dir ~/workspace/outputs \
-  --image_model "Gemini 3.1 Flash Image" \
-  --multimodal_model "Gemini 3.1 Flash-Lite" \
-  --video_model "Veo 3.1 Fast"
-```
-
-## Usage
-
-Generate an image:
-```bash
-python scripts/multimodal_tool.py image-gen --prompt "Japanese garden at sunset" --optimize
-```
-
-Generate a video:
-```bash
-python scripts/multimodal_tool.py video-gen --prompt "Ocean waves hitting rocks" --duration 8 --optimize
-```
-
-Analyze an image:
-```bash
-python scripts/multimodal_tool.py image-query --file ~/workspace/image.png --prompt "Describe this image"
-```
-
-Use a different model:
-```bash
-python scripts/multimodal_tool.py image-gen --prompt "Realistic portrait" --model "Imagen 4 Ultra" --optimize
-```
-
-## Project Structure
-
-```
-google-multimodal-agent/
-├── README.md
-├── README_CN.md
-├── SKILL.md
-├── SKILL_ZH.md
-├── config.json          # Local config, not in repo
-├── .gitignore
-├── scripts/
-│   └── multimodal_tool.py
-├── assets/
-├── references/
-└── tests/
-```
-
-## Config
-
-config.json stores your personal settings:
-```json
-{
-    "output_dir": "/home/ubuntu/workspace/outputs",
-    "default_image_model": "Gemini 3.1 Flash Image",
-    "default_video_model": "Veo 3.1 Fast",
-    "default_multimodal_model": "Gemini 3.1 Flash-Lite"
-}
+python scripts/multimodal_tool.py video-query --file ./input.mp4 --prompt "What happens at 0:05?"
 ```
 
 ## License
